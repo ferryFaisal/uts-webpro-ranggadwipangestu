@@ -15,7 +15,7 @@ if (mysqli_query($conn, $sql1)) {
     // echo "New record created successfully";
     header('location: read_data.php');
 } else {
-    echo "Error: " . $sql1 . "<br>" . $conn->error;
+    echo "gagal mengedit data: " . mysqli_error($conn);
 }
 
 mysqli_close($conn);
