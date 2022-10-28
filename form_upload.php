@@ -50,9 +50,11 @@ $pName = $desc = $price = "";
             Upload Photo : <input type="file" name="file"><br>
             <br><br>
             <input type="submit" name="submit" value="Submit">
+
         </form>
 
         <?php
+//validasi nya di dalam$cek
 if (isset($_POST['submit'])) {
     $dir_upload = "images/";
     $nama_file = $_FILES['file']['name'];
