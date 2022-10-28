@@ -76,7 +76,7 @@ function test_input($data)
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-}
+} //test
 ?>
 
 <!DOCTYPE html>
@@ -108,6 +108,7 @@ function test_input($data)
     }
     </style>
 </head>
+
 
 <body class="text-left">
 

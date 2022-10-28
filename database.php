@@ -5,6 +5,7 @@ $host = "localhost";
 $username = "root";
 $password = "";
 $db_name = "webpro";
+//test
 
 // Create connection
 $conn = mysqli_connect($host, $username, $password, $db_name);

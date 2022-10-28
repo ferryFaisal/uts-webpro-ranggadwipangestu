@@ -97,6 +97,7 @@ function test_input($data)
 
 <body class="text-left">
 
+
     <main class="form w-1000 m-auto">
         <h1>Add Product</h1>
         <p><span class="error">* required field</span></p>
@@ -127,6 +128,8 @@ function test_input($data)
 if ($valid_name && $valid_desc && $valid_price && $valid_image == true) {
 
     include 'upload_data.php';
+//test
+
 }
 ?>
     </main>
