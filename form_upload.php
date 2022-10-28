@@ -1,24 +1,67 @@
 <?php
-$name = $desc = $price = "";
+$nameErr = $descErr = $priceErr = $imageErr = "";
+$name = $desc = $price = $image = "";
+$valid_name = $valid_desc = $valid_price = $valid_image = false;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $dir_upload = "images/";
-    $nama_file = $_FILES['file']['name'];
-
-    if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-
-        $cek = move_uploaded_file($_FILES['file']['tmp_name'], //source
-            // tujuan
-            $dir_upload . $nama_file);
-        if ($cek) {
-            include 'upload_data.php';
-
-        } else {
-            die("File gagal diupload");
-
-        }
+    if (empty($_POST["name"])) {
+        $nameErr = "Product name is Required";
+        $valid_name = false;
+    } else {
+        $name = test_input($_POST["name"]);
+        $valid_name = true;
     }
 
+    // descript section
+    if (empty($_POST["desc"])) {
+        $descErr = "Description is required";
+        $valid_desc = false;
+    } else {
+        $desc = test_input($_POST["desc"]);
+        $valid_desc = true;
+    }
+
+    //price section
+    if (empty($_POST["price"])) {
+        $priceErr = "Price is required";
+        $valid_price = false;
+    } else {
+        $price = test_input($_POST["price"]);
+        $valid_price = true;
+    }
+
+    $nama_file = $_FILES['file']['name'];
+    $dir_upload = "images/";
+    $target_file = $dir_upload . basename($_FILES["file"]["name"]);
+
+    // Select file type
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Valid file extensions
+    $extensions_arr = array("jpg", "jpeg", "png", "gif");
+
+    // Check extension
+    if (in_array($imageFileType, $extensions_arr)) {
+        // Upload file
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $dir_upload . $nama_file)) {
+            // Insert record
+
+            $valid_image = true;
+        } else {
+            $imageErr = "File photo is required";
+            $valid_image = false;
+        }
+    } else {
+        $imageErr = "File photo is required";
+    }
+
+}
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 ?>
@@ -36,6 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     html,
     body {
         height: 100%;
+    }
+
+    .error {
+        color: red;
     }
 
     body {
@@ -57,27 +104,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ENCTYPE="multipart/form-data">
 
             Product Name : <input type="text" name="name" value="<?php echo $name; ?>">
-
+            <span class="error">* <?php echo $nameErr; ?></span>
             <br><br>
             <label for="textarea">Description:</label>
             <br>
             <textarea name="desc" id="" cols="40" rows="5" value="<?php echo $desc ?>"></textarea>
-
+            <span class="error">* <?php echo $descErr; ?></span>
             <br><br>
 
             Price: <input type="number" min="1" step="any" name='price' value="<?php echo $price ?>">
-
+            <span class="error">* <?php echo $priceErr; ?></span>
             <br><br>
 
             Upload Photo : <input type="file" name="file"><br>
-            Masukkan photo agar bisa submit!
-
+            <span class="error">* <?php echo $imageErr; ?></span>
             <br><br>
             <input type="submit" name="submit" value="Submit">
         </form>
 
-        <?php
 
+        <?php
+if ($valid_name && $valid_desc && $valid_price && $valid_image == true) {
+
+    include 'upload_data.php';
+}
 ?>
     </main>
 </body>
