@@ -3,7 +3,7 @@ require "database.php";
 
 // define variables and set to empty values
 $nameErr = $descErr = $priceErr = $imageErr = "";
-$name = $desc = $price = $image = "";
+$name = $desc = $price = "";
 $valid_name = $valid_desc = $valid_price = $valid_image = false;
 
 $sql = "SELECT * FROM products WHERE id = '$_GET[id]'";
@@ -76,7 +76,7 @@ function test_input($data)
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-} //test
+}
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +108,6 @@ function test_input($data)
     }
     </style>
 </head>
-
 
 <body class="text-left">
 

@@ -1,7 +1,7 @@
 <?php
 require "database.php";
 
-$id1 = $_POST['id'];
+$id1 = $_GET['id'];
 
 $sql1 = "UPDATE products SET name='$name',
 description='$desc',

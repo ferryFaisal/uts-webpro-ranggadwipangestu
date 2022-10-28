@@ -55,7 +55,6 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         ?>
 
-
             <tr>
                 <td><?php echo $row['name'] ?></td>
                 <td><?php echo $row['description'] ?></td>
@@ -87,8 +86,6 @@ if (mysqli_num_rows($result) > 0) {
     echo "0 results";
 }
 mysqli_close($conn);
-//test
-
 ?>
 </body>
 
