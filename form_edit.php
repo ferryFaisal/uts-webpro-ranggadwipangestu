@@ -2,8 +2,8 @@
 require "database.php";
 
 // define variables and set to empty values
-$nameErr = $descErr = $priceErr = "";
-$name = $desc = $price = $nama_file = "";
+$nameErr = $descErr = $priceErr = $imageErr = "";
+$name = $desc = $price = $image = "";
 $valid_name = $valid_desc = $valid_price = $valid_image = false;
 
 $sql = "SELECT * FROM products WHERE id = '$_GET[id]'";
@@ -11,7 +11,6 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while ($row = mysqli_fetch_assoc($result)) {
-        $id = $row['id'];
         $name = $row['name'];
         $desc = $row['description'];
         $price = $row['price'];
@@ -25,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nameErr = "Product Name is Required";
         $valid_name = false;
     } else {
-
+        $name = test_input($_POST["name"]);
         $valid_name = true;
 
     }
@@ -35,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $descErr = "Description is required";
         $valid_desc = false;
     } else {
-
+        $desc = test_input($_POST["desc"]);
         $valid_desc = true;
     }
 
     //price section
     if (empty($_POST["price"])) {
-        $priceErr = "Product Price is required";
+        $priceErr = "Price of Product is required";
         $valid_price = false;
     } else {
-
+        $price = test_input($_POST["price"]);
         $valid_price = true;
     }
 
@@ -61,14 +60,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check extension
     if (in_array($imageFileType, $extensions_arr)) {
         // Upload file
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $dir_upload . $nama_file)) {
-            // Insert record
-            include 'edit_data.php';
-            $valid_image = true;
-        }
+        move_uploaded_file($_FILES['file']['tmp_name'], $dir_upload . $nama_file);
+        // Insert record
+        $valid_image = true;
+    } else {
+        $imageErr = "File photo is required";
+        $valid_image = false;
+
     }
 }
 
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +95,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         height: 100%;
     }
 
+    .error {
+        color: red;
+    }
+
     body {
         display: flex;
         align-items: center;
@@ -102,36 +114,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main class="form w-1000 m-auto">
         <h1>Add Product</h1>
         <p><span class="error">* required field</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-            ENCTYPE="multipart/form-data">
-            <input type="hidden" name='id' value="<?php echo $id ?>">
-            Product Name : <input type="text" name="name" value="<?php echo $name; ?>">
+        <form method="post" ENCTYPE="multipart/form-data">
 
+            Product Name : <input type="text" name="name" value="<?php echo $name; ?>">
+            <span class="error">* <?php echo $nameErr; ?></span>
             <br><br>
             <label for="textarea">Description:</label>
             <br>
             <textarea name="desc" id="" cols="40" rows="5" value="<?php echo $desc ?>"><?php echo $desc ?></textarea>
-
+            <span class="error">* <?php echo $descErr; ?></span>
             <br><br>
 
             Price: <input type="number" min="1" step="any" name='price' value="<?php echo $price ?>">
-
+            <span class="error">* <?php echo $priceErr; ?></span>
             <br><br>
 
-            Upload Photo : <input type="file" name="file" value=''><br><br>
+            Upload Photo : <input type="file" name="file"><br><br>
             Recent Photo : <?php echo $nama_file ?><br>
-            Masukkan Photo lagi supaya photo yang lama tidak hilang pada saat update
-            <br>
+            <span class="error">* <?php echo $imageErr; ?></span><br>
             <img src="images/<?=$nama_file?>" alt="" width="200px">
             <br><br>
             <input type="submit" name="submit" value="Submit">
         </form>
 
+
         <?php
-if ($valid_name && $valid_desc && $valid_price == true) {
+if ($valid_name && $valid_desc && $valid_price && $valid_image == true) {
+
     include 'edit_data.php';
 }
-mysqli_close($conn);
 ?>
     </main>
 </body>
+
+</html>
