@@ -1,3 +1,7 @@
+<?php
+$pName = $desc = $price = "";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
