@@ -2,9 +2,6 @@
 require "database.php";
 
 $id1 = $_POST['id'];
-$name = $_POST['name'];
-$price = $_POST['price'];
-$desc = $_POST['desc'];
 
 $sql1 = "UPDATE products SET name='$name',
 description='$desc',
