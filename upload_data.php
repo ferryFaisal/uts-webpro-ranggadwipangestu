@@ -20,6 +20,7 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo "gagal memasukkan data: " . mysqli_error($conn);
 }
+//test
 
 mysqli_close($conn);
 header('Location: read_data.php');
