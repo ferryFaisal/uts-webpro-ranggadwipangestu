@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br><br>
 
             Upload Photo : <input type="file" name="file"><br>
+            Masukkan photo agar bisa submit!
 
             <br><br>
             <input type="submit" name="submit" value="Submit">
