@@ -44,6 +44,7 @@ $result = mysqli_query($conn, $sql);
                 <th>Image</th>
                 <th>Date Created</th>
                 <th>Date Modified</th>
+                <th>Action</th>
 
             </tr>
         </thead>
@@ -63,10 +64,11 @@ if (mysqli_num_rows($result) > 0) {
                 <td><?php echo $row['created'] ?></td>
                 <td><?php echo $row['modified'] ?></td>
 
+
                 <td>
-                    <a href='form_update.php?email=<?php echo $row['id'] ?>'><i class="bi bi-pen"></i></a> |
-                    <a onclick="return confirm ('Are you sure ?')"
-                        href='delete_data.php?email=<?php echo $row['id'] ?>'><i class="bi bi-trash"></i></a>
+                    <a href='form_edit.php?id=<?php echo $row['id'] ?>'><i class="bi bi-pen"></i></a> |
+                    <a onclick="return confirm ('Are you sure ?')" href='delete_data.php?id=<?php echo $row['id'] ?>'><i
+                            class="bi bi-trash"></i></a>
                 </td>
 
 
