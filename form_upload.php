@@ -16,6 +16,7 @@ $pName = $desc = $price = "";
     html,
     body {
         height: 100%;
+
     }
 
     body {
